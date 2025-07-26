@@ -59,6 +59,24 @@ services:
     networks:
       - app_net
 
+  receta-service:
+    build:
+      context: ./receta_service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3003:3003"
+    environment:
+      DB_USER : postgres
+      DB_PASSWORD : admindb
+      DB_NAME : dbuser
+      DB_HOST : dbusers
+      DB_PORT : 5432
+    depends_on:
+      dbusers:
+        condition: service_healthy
+    networks:
+      - app_net
 
   api-gateway:
     build:
@@ -67,6 +85,8 @@ services:
       - "3000:3000"
     depends_on:
       - auth-service
+      - receta-service
+      - ingrediente-service
     env_file:
       - ./api-gateway/.env
     networks:
