@@ -1,5 +1,7 @@
 from src.models.receta import db, Receta
-
+from sqlalchemy.exc import IntegrityError
+from flask import abort
+import psycopg2.errors
 class RecetaService:
 
     @staticmethod
@@ -10,8 +12,26 @@ class RecetaService:
     def crear(data):
         nueva = Receta(**data)
         db.session.add(nueva)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError as e:
+            db.session.rollback()
+
+            # Validar error específico por clave foránea en PostgreSQL
+            if isinstance(e.orig, psycopg2.errors.ForeignKeyViolation):
+                detalle = str(e.orig)
+
+                if 'usuario' in detalle:
+                    abort(400, description=f"Error: El usuario con ID {data.get('usuario')} no existe.")
+                elif 'menu' in detalle:
+                    abort(400, description=f"Error: El menú con ID {data.get('menu')} no existe.")
+            
+            # Otros errores de integridad
+            abort(400, description="Error de integridad en la base de datos. Verifique los datos enviados.")
+
         return nueva.to_dict()
+    
+
 
     @staticmethod
     def obtener(id_receta):
