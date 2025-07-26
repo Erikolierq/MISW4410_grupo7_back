@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class user_security(db.Model):
+    __tablename__ = 'user_security'
     id = db.Column(db.Integer, primary_key=True)
     usuario = db.Column(db.String(50), unique=True, nullable=False)  # Email o nombre de usuario
     nombre = db.Column(db.String(50))

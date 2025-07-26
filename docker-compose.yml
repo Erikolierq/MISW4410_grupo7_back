@@ -40,6 +40,25 @@ services:
     networks:
       - app_net
 
+  ingrediente-service:
+    build: 
+      context: ./ingredientes_service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3002:3002"
+    environment:
+      DB_USER : postgres
+      DB_PASSWORD : admindb
+      DB_NAME : dbuser
+      DB_HOST : dbusers
+      DB_PORT : 5432
+    depends_on:
+      dbusers:
+        condition: service_healthy
+    networks:
+      - app_net
+
 
   api-gateway:
     build:

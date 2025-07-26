@@ -8,12 +8,14 @@ app = Flask(__name__)
 
 # URLs y prefijos reales
 SERVICES = {
-    'auth': os.getenv("AUTH_SERVICE_URL")
+    'auth': os.getenv("AUTH_SERVICE_URL"),
+    'ingrediente': os.getenv("INGREDIENTE_SERVICE_URL")
 }
 
 # Prefijos internos de ruta para cada servicio
 SERVICE_PREFIXES = {
-    'auth': 'auth'
+    'auth': 'auth',
+    'ingrediente' :'ingrediente'
 }
 
 @app.route('/<service>/<path:path>', methods=["GET", "POST", "PUT", "DELETE", "PATCH"])

@@ -6,8 +6,6 @@ from src.models.users import db
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'una_clave_secreta'
-
-# 👇 Conexión a dbusers (PostgreSQL)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admindb@dbusers:5432/dbuser'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

@@ -11,7 +11,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . .
 
 # Exponer el puerto de la aplicación Flask (ajusta si usas otro)
-EXPOSE 3001
+EXPOSE 3002
 
 # Comando para ejecutar tu aplicación Flask
 CMD ["python", "app.py"]
