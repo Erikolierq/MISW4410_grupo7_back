@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 load_dotenv()
 app = Flask(__name__)
-
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 # URLs y prefijos reales
 SERVICES = {
     'auth': "http://auth-service:3001",
