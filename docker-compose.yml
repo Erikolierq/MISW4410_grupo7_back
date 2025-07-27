@@ -78,6 +78,43 @@ services:
     networks:
       - app_net
 
+  menu-service:
+    build:
+      context: ./menu_service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3004:3004"
+    environment:
+      DB_USER : postgres
+      DB_PASSWORD : admindb
+      DB_NAME : dbuser
+      DB_HOST : dbusers
+      DB_PORT : 5432
+    depends_on:
+      dbusers:
+        condition: service_healthy
+    networks:
+      - app_net
+  restaurante-service:
+    build:
+      context: ./restaurante_service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3005:3005"
+    environment:
+      DB_USER : postgres
+      DB_PASSWORD : admindb
+      DB_NAME : dbuser
+      DB_HOST : dbusers
+      DB_PORT : 5432
+    depends_on:
+      dbusers:
+        condition: service_healthy
+    networks:
+      - app_net
+
   api-gateway:
     build:
       context: ./api-gateway
@@ -87,6 +124,8 @@ services:
       - auth-service
       - receta-service
       - ingrediente-service
+      - menu-service
+      - restaurante-service
     env_file:
       - ./api-gateway/.env
     networks:

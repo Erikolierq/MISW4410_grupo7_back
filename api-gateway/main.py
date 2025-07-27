@@ -10,14 +10,18 @@ app = Flask(__name__)
 SERVICES = {
     'auth': os.getenv("AUTH_SERVICE_URL"),
     'ingrediente': os.getenv("INGREDIENTE_SERVICE_URL"),
-    'receta': os.getenv("RECETA_SERVICE_URL")
+    'receta': os.getenv("RECETA_SERVICE_URL"),
+    'menu': os.getenv("MENU_SERVICE_URL"),
+    'restaurante': os.getenv("RESTAURANTE_SERVICE_URL")
 }
 
 # Prefijos internos de ruta para cada servicio
 SERVICE_PREFIXES = {
     'auth': 'auth',
     'ingrediente' :'ingrediente',
-    'receta' : 'receta'
+    'receta' : 'receta',
+    'menu' : 'menu',
+    'restaurante' : 'restaurante'
 
 }
 
