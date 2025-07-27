@@ -11,7 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 JWTManager(app)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}}, supports_credentials=True)
 app.register_blueprint(auth_bp, url_prefix="/auth")
 
 # ✅ Crear tablas si no existen
