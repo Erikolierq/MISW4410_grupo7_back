@@ -10,5 +10,7 @@ CORS(app)
 db.init_app(app)
 app.register_blueprint(restaurante_bp, url_prefix='/restaurante')
 
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3005, debug=True)

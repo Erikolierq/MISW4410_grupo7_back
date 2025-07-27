@@ -8,11 +8,11 @@ app = Flask(__name__)
 
 # URLs y prefijos reales
 SERVICES = {
-    'auth': os.getenv("AUTH_SERVICE_URL"),
-    'ingrediente': os.getenv("INGREDIENTE_SERVICE_URL"),
-    'receta': os.getenv("RECETA_SERVICE_URL"),
-    'menu': os.getenv("MENU_SERVICE_URL"),
-    'restaurante': os.getenv("RESTAURANTE_SERVICE_URL")
+    'auth': "http://auth-service:3001",
+    'ingrediente': "http://ingrediente-service:3002",
+    'receta': "http://receta-service:3003",
+    'menu': "http://menu-service:3004",
+    'restaurante': "http://restaurante-service:3005"
 }
 
 # Prefijos internos de ruta para cada servicio

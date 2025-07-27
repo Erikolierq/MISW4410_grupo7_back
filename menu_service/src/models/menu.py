@@ -5,18 +5,22 @@ db = SQLAlchemy()
 # Modelo mínimo de usuario para la relación FK
 class Usuario(db.Model):
     __tablename__ = 'usuario'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
+    
 
 # Modelo mínimo de receta para la relación FK
 class Receta(db.Model):
     __tablename__ = 'receta'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
-
+# Modelo mínimo de restaurante para la relación FK
 class Restaurante(db.Model):
     __tablename__ = 'restaurante'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
 
-# Modelo de MenuReceta (tabla intermedia)
+    
 class MenuReceta(db.Model):
     __tablename__ = 'menu_receta'
 

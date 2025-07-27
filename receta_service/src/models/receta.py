@@ -5,15 +5,25 @@ db = SQLAlchemy()
 
 class Usuario(db.Model):
     __tablename__ = 'usuario'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
+    
+      # evita que SQLAlchemy intente crear la tabla
 
 class Menu(db.Model):
     __tablename__ = 'menu'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
+    
+    
 
 class Ingrediente(db.Model):
     __tablename__ = 'ingrediente'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
+    
+
+    
 class Receta(db.Model):
     __tablename__ = 'receta'
 
