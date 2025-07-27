@@ -134,8 +134,6 @@ services:
       - ingrediente-service
       - menu-service
       - restaurante-service
-    env_file:
-      - ./api-gateway/.env
     networks:
       - app_net
 
