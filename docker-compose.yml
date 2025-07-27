@@ -1,0 +1,147 @@
+version: "3.8"
+
+services:
+
+  dbusers:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admindb
+      POSTGRES_DB: dbuser
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5433:5432"
+    restart: always
+    volumes:
+      - postgres_data_user:/var/lib/postgresql/data    
+    networks:
+      - app_net
+
+  auth-service:
+    build: 
+      context: ./auth_service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      DB_USER : postgres
+      DB_PASSWORD : admindb
+      DB_NAME : dbuser
+      DB_HOST : dbusers
+      DB_PORT : 5432
+    depends_on:
+      dbusers:
+        condition: service_healthy
+    networks:
+      - app_net
+
+  ingrediente-service:
+    build: 
+      context: ./ingredientes_service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3002:3002"
+    environment:
+      DB_USER : postgres
+      DB_PASSWORD : admindb
+      DB_NAME : dbuser
+      DB_HOST : dbusers
+      DB_PORT : 5432
+    depends_on:
+      auth-service :
+        condition: service_started
+      dbusers:
+        condition: service_healthy
+    networks:
+      - app_net
+
+  receta-service:
+    build:
+      context: ./receta_service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3003:3003"
+    environment:
+      DB_USER : postgres
+      DB_PASSWORD : admindb
+      DB_NAME : dbuser
+      DB_HOST : dbusers
+      DB_PORT : 5432
+    depends_on:
+      auth-service :
+        condition: service_started
+      dbusers:
+        condition: service_healthy
+    networks:
+      - app_net
+
+  menu-service:
+    build:
+      context: ./menu_service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3004:3004"
+    environment:
+      DB_USER : postgres
+      DB_PASSWORD : admindb
+      DB_NAME : dbuser
+      DB_HOST : dbusers
+      DB_PORT : 5432
+    depends_on:
+      auth-service :
+        condition: service_started
+      dbusers:
+        condition: service_healthy
+    networks:
+      - app_net
+  restaurante-service:
+    build:
+      context: ./restaurante_service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3005:3005"
+    environment:
+      DB_USER : postgres
+      DB_PASSWORD : admindb
+      DB_NAME : dbuser
+      DB_HOST : dbusers
+      DB_PORT : 5432
+    depends_on:
+      auth-service :
+        condition: service_started
+      dbusers:
+        condition: service_healthy
+    networks:
+      - app_net
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-service
+      - receta-service
+      - ingrediente-service
+      - menu-service
+      - restaurante-service
+    networks:
+      - app_net
+
+
+networks:
+  app_net:
+    driver: bridge
+
+volumes:
+  postgres_data_user:
+
