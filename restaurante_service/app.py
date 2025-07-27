@@ -6,7 +6,7 @@ from src.routes.restaurante_route import restaurante_bp
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admindb@dbusers:5432/dbuser'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}}, supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": "*"}})
 db.init_app(app)
 app.register_blueprint(restaurante_bp, url_prefix='/restaurante')
 
