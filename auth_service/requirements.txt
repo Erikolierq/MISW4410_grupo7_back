@@ -3,3 +3,4 @@ Flask-JWT-Extended
 Flask-Cors
 Flask-SQLAlchemy
 psycopg2-binary
+werkzeug>=3.1.4 # not directly required, pinned by Snyk to avoid a vulnerability
